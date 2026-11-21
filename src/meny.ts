@@ -4,49 +4,65 @@
 import { formateraPris } from "./pris";
 import type { Ratt, OrderRad } from "./typer";
 
+// Gissning på metod för vegetariskaRatter: FILIP FYLLER I
+
 // 1. Alla vegetariska rätter (filter). Returnerar en ny array.
 export function vegetariskaRatter(meny: Ratt[]): Ratt[] {
-  // TODO
+  return meny.filter((r) => r.vegetarisk);
 }
 
 // 2. Bara namnen, som en array av text (map). ["Kardemummabulle", ...]
 export function rattNamn(meny: Ratt[]): string[] {
-  // TODO
+  return meny.map((r) => r.namn);
 }
 
 // 3. En prislista som text: "Kardemummabulle – 35 kr" (map + formateraPris)
 export function prislista(meny: Ratt[]): string[] {
-  // TODO
+  return meny.map((r) => `${r.namn} – ${formateraPris(r.pris)}`);
 }
 
 // 4. Hitta en rätt via id (find). Returnerar objektet, eller undefined om det saknas.
 export function hittaRatt(meny: Ratt[], id: number): Ratt | undefined {
-  // TODO
+  return meny.find((r) => r.id === id);
 }
 
 // 5. Den billigaste rätten (reduce). Returnerar objektet. Tom lista ger undefined.
 export function billigast(meny: Ratt[]): Ratt | undefined {
-  // TODO
+  // Utan startvärde börjar reduce med första elementet; tom lista ger då fel.
+  // Därför startar vi med undefined och jämför mot det vi hittat hittills.
+  return meny.reduce<Ratt | undefined>(
+    (lagst, r) => (lagst === undefined || r.pris < lagst.pris ? r : lagst),
+    undefined,
+  );
 }
 
 // 6. Sortera efter pris, billigast först. Returnerar en NY array.
 //    Den ursprungliga listan får INTE ändras (sort ändrar originalet, så kopiera först).
 export function sorteraEfterPris(meny: Ratt[]): Ratt[] {
-  // TODO
+  // sort ändrar arrayen den körs på, så vi kopierar med spread först.
+  return [...meny].sort((a, b) => a.pris - b.pris);
 }
 
 // 7. Totalpris för en order. order = [{ id: 1, antal: 2 }, { id: 5, antal: 1 }]
 //    Slå upp priset för varje id i menyn. Okända id räknas som 0 kr.
 export function totalPris(order: OrderRad[], meny: Ratt[]): number {
-  // TODO
+  return order.reduce((total, rad) => {
+    const ratt = meny.find((r) => r.id === rad.id);
+    return total + (ratt ? ratt.pris * rad.antal : 0);
+  }, 0);
 }
 
 // 8. Antal rätter per kategori som ett objekt: { bakverk: 3, dryck: 2, lunch: 3 } (reduce)
 export function perKategori(meny: Ratt[]): Record<string, number> {
-  // TODO
+  return meny.reduce<Record<string, number>>((antal, r) => {
+    antal[r.kategori] = (antal[r.kategori] ?? 0) + 1;
+    return antal;
+  }, {});
 }
 
 // 9. En kopia av rätten med nytt pris. Originalet får INTE ändras (spread: { ...ratt }).
 export function medNyttPris(ratt: Ratt, nyttPris: number): Ratt {
-  // TODO
+  // Bättre än ratt.pris = nyttPris: originalet förblir intakt, så andra delar av
+  // programmet som använder samma objekt inte plötsligt ändras (inga dolda sidoeffekter).
+  return { ...ratt, pris: nyttPris };
 }
