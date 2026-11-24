@@ -4,7 +4,7 @@
 import { formateraPris } from "./pris";
 import type { Ratt, OrderRad } from "./typer";
 
-// Gissning på metod för vegetariskaRatter: FILIP FYLLER I
+// Gissning på metod för vegetariskaRatter: filter, för jag ska behålla bara de rätter som är vegetariska och få en kortare lista.
 
 // 1. Alla vegetariska rätter (filter). Returnerar en ny array.
 export function vegetariskaRatter(meny: Ratt[]): Ratt[] {

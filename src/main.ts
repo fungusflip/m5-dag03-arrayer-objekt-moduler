@@ -55,8 +55,11 @@ console.log("Sista:", meny[meny.length - 1].namn);
 for (const ratt of meny) {
   console.log(`${ratt.namn}: ${formateraPris(studentPris(ratt.pris))} (studentpris)`);
 }
-// De tre felen med flit (Filip provar själv och skriver vad de betydde):
+// De tre felen med flit och vad de betydde:
 //  1. ta bort type="module" i index.html
 //  2. fel filnamn i import
 //  3. dubbelklicka på index.html (utan servern)
-// Min förklaring: FILIP FYLLER I
+// Min förklaring:
+//  1. Utan type="module" i index.html: "Cannot use import statement outside a module". Webbläsaren behandlar filen som vanligt script, och import fungerar bara i moduler.
+//  2. Fel filnamn i import: "Failed to resolve module specifier". Filen jag pekar på finns inte, så sökvägen måste stämma exakt.
+//  3. Dubbelklick på index.html (file://): webbläsaren blockerar moduler som laddas från filer, så jag behöver servern (npm run dev).
